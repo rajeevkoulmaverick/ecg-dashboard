@@ -6,28 +6,19 @@
 <title>Athlete ECG Dashboard — Rajeev Koul</title>
 <style>
   :root {
-    --bg: #0a0e17;
-    --card: #131a2b;
-    --card2: #0f1623;
-    --border: #1e2d45;
-    --cyan: #00e5ff;
-    --cyan-dim: rgba(0,229,255,0.12);
-    --green: #00e676;
-    --green-dim: rgba(0,230,118,0.12);
-    --amber: #ffc107;
-    --amber-dim: rgba(255,193,7,0.12);
-    --red: #ff1744;
-    --red-dim: rgba(255,23,68,0.12);
-    --text: #e8f0fe;
-    --text-dim: #7a8ba8;
-    --text-muted: #3d5166;
+    --bg: #0a0e17; --card: #131a2b; --card2: #0f1623; --border: #1e2d45;
+    --cyan: #00e5ff; --cyan-dim: rgba(0,229,255,0.12);
+    --green: #00e676; --green-dim: rgba(0,230,118,0.12);
+    --amber: #ffc107; --amber-dim: rgba(255,193,7,0.12);
+    --red: #ff1744; --red-dim: rgba(255,23,68,0.12);
+    --text: #e8f0fe; --text-dim: #7a8ba8; --text-muted: #3d5166;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; min-height: 100vh; padding: 20px; }
-  .header { display: flex; justify-content: space-between; align-items: center; padding: 20px 28px; background: var(--card); border: 1px solid var(--border); border-radius: 16px; margin-bottom: 18px; position: relative; overflow: hidden; }
+  .header { display: flex; justify-content: space-between; align-items: center; padding: 20px 28px; background: var(--card); border: 1px solid var(--border); border-radius: 16px; margin-bottom: 18px; position: relative; overflow: hidden; flex-wrap: wrap; gap: 12px; }
   .header::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--cyan), #7b2ff7, var(--cyan)); }
   .header-left { display: flex; align-items: center; gap: 16px; }
-  .pulse-dot { width: 12px; height: 12px; background: var(--red); border-radius: 50%; animation: pulse 1.4s ease-in-out infinite; box-shadow: 0 0 8px var(--red); }
+  .pulse-dot { width: 12px; height: 12px; background: var(--red); border-radius: 50%; animation: pulse 1.4s ease-in-out infinite; box-shadow: 0 0 8px var(--red); flex-shrink: 0; }
   @keyframes pulse { 0%,100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.4); opacity: 0.6; } }
   .header-title { font-size: 13px; font-weight: 600; letter-spacing: 3px; color: var(--text-dim); text-transform: uppercase; }
   .header-name { font-size: 26px; font-weight: 700; color: var(--text); }
@@ -41,7 +32,7 @@
   .card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 22px 24px; position: relative; overflow: hidden; }
   .card-label { font-size: 11px; font-weight: 600; letter-spacing: 2px; color: var(--text-dim); text-transform: uppercase; margin-bottom: 10px; }
   .ecg-card { background: var(--card2); border: 1px solid var(--border); border-radius: 14px; padding: 20px 24px; margin-bottom: 18px; }
-  .ecg-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+  .ecg-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 8px; }
   .ecg-label { font-size: 11px; font-weight: 600; letter-spacing: 2px; color: var(--text-dim); text-transform: uppercase; }
   .ecg-meta { font-size: 12px; color: var(--cyan); font-family: monospace; }
   #ecgCanvas { width: 100%; height: 130px; border-radius: 8px; background: #060b14; display: block; }
@@ -49,14 +40,10 @@
   .metric-unit { font-size: 14px; color: var(--text-dim); margin-top: 4px; }
   .metric-sub { font-size: 12px; color: var(--text-muted); margin-top: 6px; font-family: monospace; }
   .metric-trend { position: absolute; top: 18px; right: 18px; font-size: 18px; }
-  .trend-down { color: var(--amber); }
-  .trend-up { color: var(--green); }
+  .trend-down { color: var(--amber); } .trend-up { color: var(--green); }
   .hr-card .metric-val { color: var(--red); }
   .rhythm-card .metric-val { font-size: 18px; padding-top: 8px; color: var(--green); }
   .rhythm-badge { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; background: var(--green-dim); border: 1px solid rgba(0,230,118,0.3); color: var(--green); padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; letter-spacing: 1px; }
-  .recovery-card { text-align: center; }
-  .gauge-score { font-size: 36px; font-weight: 800; font-family: monospace; color: var(--amber); }
-  .gauge-label { font-size: 13px; color: var(--amber); font-weight: 600; margin-top: 10px; }
   .run-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
   .run-item { background: #0a1120; border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; }
   .run-item-label { font-size: 10px; color: var(--text-dim); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 6px; }
@@ -73,6 +60,8 @@
   .status-badge { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; }
   .status-moderate { background: var(--amber-dim); color: var(--amber); border: 1px solid rgba(255,193,7,0.3); }
   .status-good { background: var(--green-dim); color: var(--green); border: 1px solid rgba(0,230,118,0.3); }
+  .status-peak { background: rgba(0,230,118,0.2); color: #00e676; border: 1px solid rgba(0,230,118,0.5); }
+  .status-poor { background: var(--red-dim); color: var(--red); border: 1px solid rgba(255,23,68,0.3); }
   .session-label { font-family: monospace; font-size: 12px; color: var(--cyan); }
   .trend-section { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--border); }
   .trend-title { font-size: 11px; letter-spacing: 2px; color: var(--text-dim); text-transform: uppercase; margin-bottom: 14px; }
@@ -82,7 +71,34 @@
   .disclaimer-title { font-size: 11px; font-weight: 700; letter-spacing: 2px; color: var(--red); text-transform: uppercase; margin-bottom: 8px; }
   .disclaimer p { font-size: 12px; color: var(--text-dim); line-height: 1.7; }
   .section-sep { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px; margin-top: 4px; padding-left: 2px; }
-  @media (max-width: 768px) { .grid-4 { grid-template-columns: 1fr 1fr; } .grid-2 { grid-template-columns: 1fr; } }
+
+  /* Upload button */
+  .upload-fab { position: fixed; bottom: 28px; right: 28px; background: linear-gradient(135deg, #00e5ff, #7b2ff7); color: #fff; border: none; border-radius: 50px; padding: 14px 22px; font-size: 14px; font-weight: 700; letter-spacing: 1px; cursor: pointer; box-shadow: 0 4px 24px rgba(0,229,255,0.35); z-index: 100; display: flex; align-items: center; gap: 8px; transition: transform 0.15s, box-shadow 0.15s; }
+  .upload-fab:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,229,255,0.5); }
+
+  /* Modal */
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(5,8,16,0.85); z-index: 200; justify-content: center; align-items: center; padding: 20px; }
+  .modal-overlay.active { display: flex; }
+  .modal { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 32px; max-width: 480px; width: 100%; position: relative; }
+  .modal::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--cyan), #7b2ff7); border-radius: 20px 20px 0 0; }
+  .modal-title { font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+  .modal-sub { font-size: 13px; color: var(--text-dim); margin-bottom: 24px; }
+  .drop-zone { border: 2px dashed var(--border); border-radius: 14px; padding: 36px 20px; text-align: center; cursor: pointer; transition: border-color 0.2s, background 0.2s; }
+  .drop-zone:hover, .drop-zone.drag-over { border-color: var(--cyan); background: var(--cyan-dim); }
+  .drop-zone-icon { font-size: 36px; margin-bottom: 12px; }
+  .drop-zone-text { font-size: 14px; color: var(--text-dim); line-height: 1.6; }
+  .drop-zone-hint { font-size: 11px; color: var(--text-muted); margin-top: 6px; }
+  #pdfFileInput { display: none; }
+  .modal-close { position: absolute; top: 16px; right: 16px; background: none; border: none; color: var(--text-dim); font-size: 20px; cursor: pointer; line-height: 1; padding: 4px; }
+  .modal-close:hover { color: var(--text); }
+  .parse-status { margin-top: 18px; padding: 14px 18px; border-radius: 10px; font-size: 13px; display: none; }
+  .parse-status.loading { display: block; background: var(--cyan-dim); border: 1px solid rgba(0,229,255,0.2); color: var(--cyan); }
+  .parse-status.success { display: block; background: var(--green-dim); border: 1px solid rgba(0,230,118,0.3); color: var(--green); }
+  .parse-status.error { display: block; background: var(--red-dim); border: 1px solid rgba(255,23,68,0.3); color: var(--red); }
+  .progress-bar { height: 3px; background: rgba(0,229,255,0.15); border-radius: 3px; margin-top: 10px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--cyan); border-radius: 3px; width: 0%; transition: width 0.3s; }
+
+  @media (max-width: 768px) { .grid-4 { grid-template-columns: 1fr 1fr; } .grid-2 { grid-template-columns: 1fr; } .history-table { font-size: 11px; } .history-table td, .history-table th { padding: 8px 8px; } }
 </style>
 </head>
 <body>
@@ -97,77 +113,78 @@
   </div>
   <div class="header-right">
     <div class="header-device">⌁ POLAR H10 · 1-LEAD · 130 Hz</div>
-    <div class="header-date">Latest: Sunday, 22 March 2026 · 22:02 IST</div>
+    <div class="header-date" id="headerDate">Latest: Sunday, 22 March 2026 · 22:02 IST</div>
     <div class="live-badge"><span class="pulse-dot" style="width:7px;height:7px;margin:0"></span>ANALYZED</div>
   </div>
 </div>
 
 <div class="ecg-card">
   <div class="ecg-header">
-    <span class="ecg-label">&#9135; ECG Waveform — Session Mar 22 · 22:02:13</span>
-    <span class="ecg-meta">HR: 67 bpm &nbsp;|&nbsp; 130 Hz &nbsp;|&nbsp; Normal Sinus Rhythm</span>
+    <span class="ecg-label" id="ecgLabel">⌁ ECG Waveform — Session Mar 22 · 22:02</span>
+    <span class="ecg-meta" id="ecgMeta">HR: 67 bpm &nbsp;|&nbsp; 130 Hz &nbsp;|&nbsp; Normal Sinus Rhythm</span>
   </div>
   <canvas id="ecgCanvas"></canvas>
 </div>
 
-<div class="section-sep">Core Cardiac Metrics · Session: 22 March 2026</div>
+<div class="section-sep" id="metricsTitle">Core Cardiac Metrics · Session: 22 March 2026</div>
 <div class="grid-4">
   <div class="card hr-card">
     <div class="card-label">&#9829; Heart Rate</div>
-    <div class="metric-val">67</div>
+    <div class="metric-val" id="hrVal">67</div>
     <div class="metric-unit">bpm · resting</div>
-    <div class="metric-sub">Mean RR: 895 ms</div>
-    <div class="metric-trend trend-up">↗</div>
+    <div class="metric-sub" id="hrSub">Mean RR: 895 ms</div>
+    <div class="metric-trend" id="hrTrend">↗</div>
   </div>
   <div class="card">
     <div class="card-label">HRV · RMSSD</div>
-    <div class="metric-val">31.8</div>
+    <div class="metric-val" id="rmssdVal">31.8</div>
     <div class="metric-unit">milliseconds</div>
-    <div class="metric-sub">Prev: 61.0 ms ↓ 48%</div>
-    <div class="metric-trend trend-down">↘</div>
+    <div class="metric-sub" id="rmssdSub">Prev: 61.0 ms ↓ 48%</div>
+    <div class="metric-trend trend-down" id="rmssdTrend">↘</div>
   </div>
   <div class="card">
     <div class="card-label">HRV · SDNN</div>
-    <div class="metric-val">42</div>
+    <div class="metric-val" id="sdnnVal">42</div>
     <div class="metric-unit">milliseconds</div>
     <div class="metric-sub">Estimated from RMSSD</div>
-    <div class="metric-trend trend-down">↘</div>
+    <div class="metric-trend trend-down" id="sdnnTrend">↘</div>
   </div>
   <div class="card rhythm-card">
     <div class="card-label">Rhythm</div>
     <div class="metric-val">NSR</div>
-    <div class="metric-sub">pNN50 ≈ 12%</div>
+    <div class="metric-sub" id="pnn50Sub">pNN50 ≈ 12%</div>
     <div class="rhythm-badge">✓ Normal Sinus</div>
   </div>
 </div>
 
-<div class="section-sep">Recovery Analysis & Training Readiness</div>
+<div class="section-sep">Recovery Analysis &amp; Training Readiness</div>
 <div class="grid-2">
-  <div class="card recovery-card">
+  <div class="card">
     <div class="card-label">Recovery Score</div>
     <div style="display:flex;align-items:center;gap:30px;flex-wrap:wrap;">
       <div>
         <canvas id="gaugeCanvas" width="160" height="120" style="display:block;"></canvas>
-        <div class="gauge-label">⚠ Moderate Recovery</div>
+        <div class="gauge-label" id="gaugeLabel" style="font-size:13px;color:var(--amber);font-weight:600;margin-top:10px;text-align:center;">⚠ Moderate Recovery</div>
       </div>
       <div style="flex:1;min-width:180px;">
-        <div style="font-size:12px;color:var(--text-dim);line-height:1.8;font-family:monospace;">
+        <div style="font-size:12px;color:var(--text-dim);line-height:1.8;font-family:monospace;" id="recoveryDetails">
           <div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--border);"><span>RMSSD vs baseline</span><span style="color:var(--amber);">52% ↓</span></div>
           <div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--border);"><span>HRV trend direction</span><span style="color:var(--amber);">↘ declining</span></div>
           <div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--border);"><span>Resting HR</span><span style="color:var(--green);">67 bpm ✓</span></div>
           <div style="display:flex;justify-content:space-between;padding:4px 0;"><span>Rhythm regularity</span><span style="color:var(--green);">NSR ✓</span></div>
         </div>
-        <div class="info-note">ℹ Based on 2 sessions. Score accuracy improves with 5+ historical readings.</div>
+        <div class="info-note" id="sessionCountNote">ℹ Based on 2 sessions. Score accuracy improves with 5+ historical readings.</div>
       </div>
     </div>
     <div style="margin-top:18px;padding-top:14px;border-top:1px solid var(--border);">
       <div style="font-size:10px;color:var(--text-dim);letter-spacing:1.5px;margin-bottom:8px;">RECOVERY ZONES</div>
-      <div style="display:flex;border-radius:6px;overflow:hidden;height:8px;">
+      <div style="display:flex;border-radius:6px;overflow:hidden;height:8px;position:relative;">
         <div style="flex:1;background:#ff1744;"></div>
         <div style="flex:1;background:#ff5722;"></div>
-        <div style="flex:1;background:var(--amber);position:relative;"><div style="position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:9px;color:var(--amber);white-space:nowrap;">▼ YOU</div></div>
+        <div style="flex:1;background:var(--amber);"></div>
         <div style="flex:1;background:#8bc34a;"></div>
         <div style="flex:1;background:var(--green);"></div>
+        <div id="zoneMarker" style="position:absolute;top:-18px;font-size:9px;white-space:nowrap;transform:translateX(-50%);transition:left 0.5s;">▼ YOU</div>
       </div>
       <div style="display:flex;justify-content:space-between;margin-top:5px;font-size:9px;color:var(--text-muted);">
         <span>REST</span><span>POOR</span><span>MODERATE</span><span>GOOD</span><span>PEAK</span>
@@ -177,15 +194,15 @@
 
   <div class="card">
     <div class="card-label">🏃 Running Recommendations</div>
-    <div class="run-grid">
-      <div class="run-item"><div class="run-item-label">Next Run Window</div><div class="run-item-val">12–24 hrs</div></div>
-      <div class="run-item"><div class="run-item-label">Pace Zone</div><div class="run-item-val">Easy Only</div></div>
-      <div class="run-item"><div class="run-item-label">Max Distance</div><div class="run-item-val">5–8 km</div></div>
-      <div class="run-item"><div class="run-item-label">Effort Level</div><div class="run-item-val">Zone 1–2</div></div>
+    <div class="run-grid" id="runGrid">
+      <div class="run-item"><div class="run-item-label">Next Run Window</div><div class="run-item-val" id="recWindow">12–24 hrs</div></div>
+      <div class="run-item"><div class="run-item-label">Pace Zone</div><div class="run-item-val" id="recPace">Easy Only</div></div>
+      <div class="run-item"><div class="run-item-label">Max Distance</div><div class="run-item-val" id="recDist">5–8 km</div></div>
+      <div class="run-item"><div class="run-item-label">Effort Level</div><div class="run-item-val" id="recEffort">Zone 1–2</div></div>
     </div>
     <div style="margin-top:16px;padding:14px;background:#0a1120;border-radius:10px;border:1px solid var(--border);">
-      <div style="font-size:11px;color:var(--amber);font-weight:700;margin-bottom:8px;">⚠ TRAINING ADVISORY</div>
-      <div style="font-size:12px;color:var(--text-dim);line-height:1.7;">Your HRV dropped 48% overnight (61 → 32 ms). This indicates reduced autonomic recovery. Consider an easy aerobic session or active recovery today. Avoid intervals or tempo work until HRV rebounds above your baseline (~55+ ms).</div>
+      <div style="font-size:11px;font-weight:700;margin-bottom:8px;" id="advisoryTitle">⚠ TRAINING ADVISORY</div>
+      <div style="font-size:12px;color:var(--text-dim);line-height:1.7;" id="advisoryText">Your HRV dropped 48% overnight (61 → 32 ms). Consider an easy aerobic session or active recovery today. Avoid intervals or tempo work until HRV rebounds above baseline.</div>
     </div>
     <div style="margin-top:12px;background:var(--green-dim);border:1px solid rgba(0,230,118,0.2);border-radius:10px;padding:12px 14px;">
       <div style="font-size:11px;color:var(--green);font-weight:700;margin-bottom:4px;">✓ CARDIAC CLEARANCE</div>
@@ -201,18 +218,15 @@
     <div style="font-size:22px;">✅</div>
     <div>
       <div class="alert-ok-text">No Critical Arrhythmias Detected</div>
-      <div class="alert-ok-sub">All 6 arrhythmia screening checks passed for both sessions</div>
+      <div class="alert-ok-sub">All 6 arrhythmia screening checks passed</div>
     </div>
   </div>
   <div class="alert-checks">
-    <div class="alert-check">✓ VFib Clear</div>
-    <div class="alert-check">✓ VTach Clear</div>
-    <div class="alert-check">✓ AFib Clear</div>
-    <div class="alert-check">✓ Asystole Clear</div>
-    <div class="alert-check">✓ HR Limits OK</div>
-    <div class="alert-check">✓ QT Interval OK</div>
+    <div class="alert-check">✓ VFib Clear</div><div class="alert-check">✓ VTach Clear</div>
+    <div class="alert-check">✓ AFib Clear</div><div class="alert-check">✓ Asystole Clear</div>
+    <div class="alert-check">✓ HR Limits OK</div><div class="alert-check">✓ QT Interval OK</div>
   </div>
-  <div style="margin-top:14px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+  <div style="margin-top:14px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;" id="arrhythmiaDetails">
     <div style="background:#0a1120;border:1px solid var(--border);border-radius:8px;padding:12px;">
       <div style="font-size:10px;color:var(--text-dim);letter-spacing:1px;margin-bottom:6px;">RHYTHM</div>
       <div style="font-size:13px;color:var(--green);font-weight:600;">Regular Sinus</div>
@@ -223,48 +237,28 @@
       <div style="font-size:13px;color:var(--green);font-weight:600;">Normal</div>
       <div style="font-size:11px;color:var(--text-muted);">Narrow, well-formed complexes</div>
     </div>
-    <div style="background:#0a1120;border:1px solid var(--border);border-radius:8px;padding:12px;">
+    <div style="background:#0a1120;border:1px solid var(--border);border-radius:8px;padding:12px;" id="rateRangeCard">
       <div style="font-size:10px;color:var(--text-dim);letter-spacing:1px;margin-bottom:6px;">RATE RANGE</div>
-      <div style="font-size:13px;color:var(--green);font-weight:600;">63–79 bpm</div>
+      <div style="font-size:13px;color:var(--green);font-weight:600;" id="rateRangeVal">65–69 bpm</div>
       <div style="font-size:11px;color:var(--text-muted);">Normal resting athletic range</div>
     </div>
   </div>
 </div>
 
-<div class="section-sep">Session History & HRV Trends</div>
+<div class="section-sep">Session History &amp; HRV Trends</div>
 <div class="card history-card full-width">
-  <div class="card-label">📊 Historical Sessions (Last 2 Recorded)</div>
+  <div class="card-label" id="historyLabel">📊 Historical Sessions (Last 2 Recorded)</div>
   <table class="history-table">
     <thead>
       <tr>
-        <th>Session</th><th>Date & Time</th><th>Heart Rate</th><th>RMSSD</th><th>SDNN (est.)</th><th>pNN50 (est.)</th><th>Recovery</th><th>Status</th>
+        <th>Session</th><th>Date &amp; Time</th><th>Heart Rate</th><th>RMSSD</th>
+        <th>SDNN (est.)</th><th>pNN50 (est.)</th><th>Recovery</th><th>Status</th>
       </tr>
     </thead>
-    <tbody>
-      <tr>
-        <td><span class="session-label">● LATEST</span></td>
-        <td style="color:var(--text)">22 Mar 2026 · 22:02</td>
-        <td style="font-family:monospace;color:var(--red)">67 bpm</td>
-        <td style="font-family:monospace;color:var(--amber)">31.8 ms ↘</td>
-        <td style="font-family:monospace;color:var(--text-dim)">~42 ms</td>
-        <td style="font-family:monospace;color:var(--text-dim)">~12%</td>
-        <td style="font-family:monospace;color:var(--amber)">48 / 100</td>
-        <td><span class="status-badge status-moderate">⚠ Moderate</span></td>
-      </tr>
-      <tr>
-        <td><span class="session-label" style="color:var(--text-dim)">○ PREV</span></td>
-        <td style="color:var(--text)">21 Mar 2026 · 17:42</td>
-        <td style="font-family:monospace;color:var(--red)">70 bpm</td>
-        <td style="font-family:monospace;color:var(--green)">61.0 ms ↗</td>
-        <td style="font-family:monospace;color:var(--text-dim)">~85 ms</td>
-        <td style="font-family:monospace;color:var(--text-dim)">~28%</td>
-        <td style="font-family:monospace;color:var(--green)">72 / 100</td>
-        <td><span class="status-badge status-good">✓ Good</span></td>
-      </tr>
-    </tbody>
+    <tbody id="historyBody"></tbody>
   </table>
   <div class="trend-section">
-    <div class="trend-title">RMSSD Trend — 2 Sessions</div>
+    <div class="trend-title" id="trendTitle">RMSSD Trend — 2 Sessions</div>
     <canvas id="trendCanvas" height="80"></canvas>
     <div style="display:flex;justify-content:flex-end;gap:20px;margin-top:8px;font-size:11px;color:var(--text-dim);">
       <span style="color:var(--cyan);">─ RMSSD (ms)</span>
@@ -278,112 +272,487 @@
   <p>This dashboard is intended for informational and fitness-tracking purposes only. It is <strong>NOT a medical device</strong>, NOT FDA/CE approved, and should <strong>NOT be used for clinical diagnosis</strong>. The arrhythmia detection algorithms use simplified rule-based analysis and may produce false positives or miss real conditions. If you experience chest pain, shortness of breath, dizziness, or fainting — seek immediate medical attention. Always consult a qualified healthcare professional for interpretation of cardiac data. Generated from Polar H10 data via ECG &amp; HRV Insights iOS app.</p>
 </div>
 
+<!-- Upload FAB -->
+<button class="upload-fab" onclick="openModal()">
+  <span>📤</span> Upload New Session
+</button>
+
+<!-- Upload Modal -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-title">📤 Upload New ECG Session</div>
+    <div class="modal-sub">Upload a Polar H10 ECG PDF report to add it to your dashboard.</div>
+    <div class="drop-zone" id="dropZone" onclick="document.getElementById('pdfFileInput').click()"
+         ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
+      <div class="drop-zone-icon">📄</div>
+      <div class="drop-zone-text">Click to select PDF<br>or drag &amp; drop here</div>
+      <div class="drop-zone-hint">Polar H10 ECG &amp; HRV Insights report (.pdf)</div>
+    </div>
+    <input type="file" id="pdfFileInput" accept=".pdf" onchange="handleFileSelect(event)">
+    <div class="parse-status" id="parseStatus">
+      <span id="parseStatusText"></span>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script>
-(function(){
-  const canvas=document.getElementById('ecgCanvas');
-  const dpr=window.devicePixelRatio||1;
-  canvas.width=canvas.offsetWidth*dpr;
-  canvas.height=130*dpr;
-  const ctx=canvas.getContext('2d');
-  ctx.scale(dpr,dpr);
-  const W=canvas.offsetWidth,H=130;
-  function drawGrid(){
-    ctx.strokeStyle='rgba(0,229,255,0.05)';ctx.lineWidth=0.5;
-    for(let x=0;x<W;x+=25){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
-    for(let y=0;y<H;y+=20){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
-    ctx.strokeStyle='rgba(0,229,255,0.10)';ctx.lineWidth=1;
-    for(let x=0;x<W;x+=125){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
-    for(let y=0;y<H;y+=100){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+// ─── Session Data ─────────────────────────────────────────────────────────────
+const DEFAULT_SESSIONS = [
+  { id:'s1', date:'2026-03-21', time:'17:42', hr:70, rmssd:60.97, sdnn:85, pnn50:28, recovery:72, minHR:63, maxHR:79 },
+  { id:'s2', date:'2026-03-22', time:'22:02', hr:67, rmssd:31.79, sdnn:42, pnn50:12, recovery:48, minHR:65, maxHR:69 }
+];
+
+let sessions = [];
+try {
+  const stored = localStorage.getItem('ecg_sessions_v2');
+  sessions = stored ? JSON.parse(stored) : DEFAULT_SESSIONS;
+  if (!Array.isArray(sessions) || sessions.length === 0) sessions = DEFAULT_SESSIONS;
+} catch(e) { sessions = DEFAULT_SESSIONS; }
+
+function saveSessions() {
+  try { localStorage.setItem('ecg_sessions_v2', JSON.stringify(sessions)); } catch(e) {}
+}
+
+// ─── Helper Functions ─────────────────────────────────────────────────────────
+function fmtDate(dateStr, timeStr) {
+  const d = new Date(dateStr + 'T00:00:00');
+  return d.toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'}) + ' · ' + timeStr;
+}
+
+function fmtLabel(dateStr) {
+  const d = new Date(dateStr + 'T00:00:00');
+  return d.toLocaleDateString('en-GB', {day:'numeric', month:'short'});
+}
+
+function calcRecovery(rmssd, hr, prevRmssd) {
+  const baseline = prevRmssd || 50;
+  const ratio = rmssd / baseline;
+  const rmssdPts = Math.min(62, Math.max(5, ratio * 50));
+  const hrPts = hr < 58 ? 22 : hr < 63 ? 19 : hr < 68 ? 15 : hr < 73 ? 11 : hr < 80 ? 7 : 4;
+  const trendPts = prevRmssd ? (ratio >= 1.0 ? 18 : ratio >= 0.8 ? 14 : ratio >= 0.6 ? 9 : 4) : 12;
+  return Math.max(8, Math.min(98, Math.round(rmssdPts + hrPts + trendPts)));
+}
+
+function calcSDNN(rmssd) { return Math.round(rmssd * 1.4); }
+function calcPNN50(rmssd) { return Math.max(0, Math.min(48, Math.round((rmssd - 14) / 1.9))); }
+
+function getStatusBadge(score) {
+  if (score >= 80) return '<span class="status-badge status-peak">✓ Peak</span>';
+  if (score >= 65) return '<span class="status-badge status-good">✓ Good</span>';
+  if (score >= 45) return '<span class="status-badge status-moderate">⚠ Moderate</span>';
+  return '<span class="status-badge status-poor">⚠ Poor</span>';
+}
+
+function getGaugeColor(score) {
+  if (score >= 80) return '#00e676';
+  if (score >= 65) return '#8bc34a';
+  if (score >= 45) return '#ffc107';
+  return '#ff5722';
+}
+
+function getRecommendation(score, prevRmssd, curRmssd) {
+  const drop = prevRmssd ? Math.round((1 - curRmssd / prevRmssd) * 100) : 0;
+  if (score >= 80) return {
+    window:'Now', pace:'Full Effort', dist:'10–15 km', effort:'Zone 3–5',
+    color:'var(--green)', icon:'✓', titleColor:'var(--green)',
+    text:'HRV is excellent. Your body is primed for a quality session today. Go for it.'
+  };
+  if (score >= 65) return {
+    window:'0–12 hrs', pace:'Moderate', dist:'8–12 km', effort:'Zone 2–3',
+    color:'var(--green)', icon:'✓', titleColor:'var(--green)',
+    text:'Good recovery. Moderate training is appropriate. Avoid maximum intensity efforts.'
+  };
+  if (score >= 45) return {
+    window:'12–24 hrs', pace:'Easy Only', dist:'5–8 km', effort:'Zone 1–2',
+    color:'var(--amber)', icon:'⚠', titleColor:'var(--amber)',
+    text:`Your HRV dropped ${drop > 0 ? drop + '% ' : ''}(${prevRmssd ? prevRmssd.toFixed(1) + ' → ' : ''}${curRmssd.toFixed(1)} ms). Consider an easy aerobic session or active recovery today. Avoid intervals or tempo work until HRV rebounds above baseline.`
+  };
+  return {
+    window:'24–48 hrs', pace:'Rest / Walk', dist:'0–5 km', effort:'Zone 1',
+    color:'var(--red)', icon:'⚠', titleColor:'var(--red)',
+    text:'HRV is significantly suppressed. Prioritize rest, sleep and nutrition. Hold off on structured training today.'
+  };
+}
+
+// ─── Render Dashboard ─────────────────────────────────────────────────────────
+function renderDashboard() {
+  if (!sessions.length) return;
+  const sorted = [...sessions].sort((a,b) => (a.date+a.time).localeCompare(b.date+b.time));
+  const latest = sorted[sorted.length - 1];
+  const prev = sorted.length > 1 ? sorted[sorted.length - 2] : null;
+
+  // Header
+  const d = new Date(latest.date + 'T00:00:00');
+  const dayName = d.toLocaleDateString('en-GB', {weekday:'long'});
+  const dateFormatted = d.toLocaleDateString('en-GB', {day:'numeric', month:'long', year:'numeric'});
+  document.getElementById('headerDate').textContent = `Latest: ${dayName}, ${dateFormatted} · ${latest.time} IST`;
+  document.getElementById('ecgLabel').textContent = `⌁ ECG Waveform — Session ${fmtLabel(latest.date)} · ${latest.time}`;
+  document.getElementById('ecgMeta').textContent = `HR: ${latest.hr} bpm \u00a0|\u00a0 130 Hz \u00a0|\u00a0 Normal Sinus Rhythm`;
+  document.getElementById('metricsTitle').textContent = `Core Cardiac Metrics · Session: ${dateFormatted}`;
+
+  // Metrics
+  document.getElementById('hrVal').textContent = latest.hr;
+  const meanRR = Math.round(60000 / latest.hr);
+  document.getElementById('hrSub').textContent = `Mean RR: ${meanRR} ms`;
+  const hrTrendEl = document.getElementById('hrTrend');
+  if (prev) {
+    hrTrendEl.textContent = latest.hr <= prev.hr ? '↘' : '↗';
+    hrTrendEl.className = 'metric-trend ' + (latest.hr <= prev.hr ? 'trend-up' : 'trend-down');
   }
-  function ecgSample(t,rr){
-    const phase=(t%rr)/rr;let v=0;
-    if(phase>0.08&&phase<0.22){const pt=(phase-0.08)/0.14;v+=0.12*Math.sin(Math.PI*pt);}
-    if(phase>0.27&&phase<0.31){const qt=(phase-0.27)/0.04;v-=0.08*Math.sin(Math.PI*qt);}
-    if(phase>0.30&&phase<0.40){const rt=(phase-0.30)/0.10;v+=1.0*Math.sin(Math.PI*rt);}
-    if(phase>0.38&&phase<0.46){const st=(phase-0.38)/0.08;v-=0.15*Math.sin(Math.PI*st);}
-    if(phase>0.46&&phase<0.78){const tw=(phase-0.46)/0.32;v+=0.22*Math.sin(Math.PI*tw)*(1-0.4*tw);}
-    v+=(Math.random()-0.5)*0.015;
-    return v;
+
+  document.getElementById('rmssdVal').textContent = latest.rmssd.toFixed(1);
+  if (prev) {
+    const rmssdChg = Math.round((1 - latest.rmssd / prev.rmssd) * 100);
+    const dir = latest.rmssd >= prev.rmssd ? '↑' : '↓';
+    const chgAbs = Math.abs(rmssdChg);
+    document.getElementById('rmssdSub').textContent = `Prev: ${prev.rmssd.toFixed(1)} ms ${dir} ${chgAbs}%`;
+    document.getElementById('rmssdTrend').textContent = latest.rmssd >= prev.rmssd ? '↗' : '↘';
+    document.getElementById('rmssdTrend').className = 'metric-trend ' + (latest.rmssd >= prev.rmssd ? 'trend-up' : 'trend-down');
+  } else {
+    document.getElementById('rmssdSub').textContent = 'First session';
+    document.getElementById('rmssdTrend').textContent = '';
   }
-  let offset=0;const rr=60/67,speed=75;
-  function draw(){
-    ctx.clearRect(0,0,W,H);drawGrid();
-    const baseline=H*0.55,amplitude=H*0.36;
-    ctx.shadowColor='rgba(0,229,255,0.6)';ctx.shadowBlur=4;
-    ctx.strokeStyle='#00e5ff';ctx.lineWidth=1.5;ctx.beginPath();
-    const tStart=offset/speed;
-    for(let px=0;px<W;px++){
-      const t=tStart+px/speed,v=ecgSample(t,rr),y=baseline-v*amplitude;
-      if(px===0)ctx.moveTo(px,y);else ctx.lineTo(px,y);
+
+  const sdnn = latest.sdnn || calcSDNN(latest.rmssd);
+  document.getElementById('sdnnVal').textContent = sdnn;
+  if (prev) {
+    const prevSdnn = prev.sdnn || calcSDNN(prev.rmssd);
+    document.getElementById('sdnnTrend').textContent = sdnn >= prevSdnn ? '↗' : '↘';
+    document.getElementById('sdnnTrend').className = 'metric-trend ' + (sdnn >= prevSdnn ? 'trend-up' : 'trend-down');
+  }
+
+  const pnn50 = latest.pnn50 !== undefined ? latest.pnn50 : calcPNN50(latest.rmssd);
+  document.getElementById('pnn50Sub').textContent = `pNN50 ≈ ${pnn50}%`;
+
+  // Recovery gauge
+  const score = latest.recovery;
+  const gc = getGaugeColor(score);
+  drawGauge(score, gc);
+
+  const gaugeLabel = document.getElementById('gaugeLabel');
+  if (score >= 80) { gaugeLabel.textContent = '✓ Peak Recovery'; gaugeLabel.style.color = '#00e676'; }
+  else if (score >= 65) { gaugeLabel.textContent = '✓ Good Recovery'; gaugeLabel.style.color = '#8bc34a'; }
+  else if (score >= 45) { gaugeLabel.textContent = '⚠ Moderate Recovery'; gaugeLabel.style.color = 'var(--amber)'; }
+  else { gaugeLabel.textContent = '⚠ Poor Recovery'; gaugeLabel.style.color = 'var(--red)'; }
+
+  // Zone marker (score 0-100 → left 0%-100%)
+  const marker = document.getElementById('zoneMarker');
+  marker.style.left = Math.max(5, Math.min(95, score)) + '%';
+  marker.style.color = gc;
+
+  // Recovery details
+  if (prev) {
+    const rmssdPct = Math.round((1 - latest.rmssd / prev.rmssd) * 100);
+    const rmssdDir = latest.rmssd >= prev.rmssd ? '↑ improving' : '↓ declining';
+    const rmssdColor = latest.rmssd >= prev.rmssd ? 'var(--green)' : 'var(--amber)';
+    const rmssdChgText = (Math.abs(rmssdPct)) + '% ' + (latest.rmssd >= prev.rmssd ? '↑' : '↓');
+    const hrColor = latest.hr < 70 ? 'var(--green)' : 'var(--amber)';
+    document.getElementById('recoveryDetails').innerHTML = `
+      <div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--border);">
+        <span>RMSSD vs prev</span><span style="color:${rmssdColor};">${rmssdChgText}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--border);">
+        <span>HRV trend direction</span><span style="color:${rmssdColor};">${rmssdDir}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--border);">
+        <span>Resting HR</span><span style="color:${hrColor};">${latest.hr} bpm ${latest.hr < 72 ? '✓' : ''}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:4px 0;">
+        <span>Rhythm regularity</span><span style="color:var(--green);">NSR ✓</span>
+      </div>`;
+  }
+
+  document.getElementById('sessionCountNote').textContent =
+    `ℹ Based on ${sorted.length} session${sorted.length !== 1 ? 's' : ''}. Score accuracy improves with 5+ historical readings.`;
+
+  // Recommendations
+  const rec = getRecommendation(score, prev ? prev.rmssd : null, latest.rmssd);
+  document.getElementById('recWindow').textContent = rec.window;
+  document.getElementById('recPace').textContent = rec.pace;
+  document.getElementById('recDist').textContent = rec.dist;
+  document.getElementById('recEffort').textContent = rec.effort;
+  const advTitle = document.getElementById('advisoryTitle');
+  advTitle.textContent = `${rec.icon} TRAINING ADVISORY`;
+  advTitle.style.color = rec.titleColor;
+  document.getElementById('advisoryText').textContent = rec.text;
+
+  // Rate range
+  const minHR = latest.minHR || (latest.hr - 3);
+  const maxHR = latest.maxHR || (latest.hr + 4);
+  document.getElementById('rateRangeVal').textContent = `${minHR}–${maxHR} bpm`;
+
+  // History table
+  const tbody = document.getElementById('historyBody');
+  tbody.innerHTML = '';
+  const reversed = [...sorted].reverse();
+  reversed.forEach((s, i) => {
+    const isLatest = i === 0;
+    const sdnnDisp = s.sdnn || calcSDNN(s.rmssd);
+    const pnn50Disp = s.pnn50 !== undefined ? s.pnn50 : calcPNN50(s.rmssd);
+    const prevS = sorted[sorted.indexOf(s) - 1];
+    const rmssdColor = !prevS ? 'var(--cyan)' : s.rmssd >= prevS.rmssd ? 'var(--green)' : 'var(--amber)';
+    const rmssdArrow = !prevS ? '' : s.rmssd >= prevS.rmssd ? ' ↗' : ' ↘';
+    const recColor = s.recovery >= 80 ? 'var(--green)' : s.recovery >= 65 ? '#8bc34a' : s.recovery >= 45 ? 'var(--amber)' : 'var(--red)';
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><span class="session-label" style="${isLatest ? '' : 'color:var(--text-dim)'}">${isLatest ? '● LATEST' : '○ ' + fmtLabel(s.date)}</span></td>
+      <td style="color:var(--text)">${fmtDate(s.date, s.time)}</td>
+      <td style="font-family:monospace;color:var(--red)">${s.hr} bpm</td>
+      <td style="font-family:monospace;color:${rmssdColor}">${s.rmssd.toFixed(1)} ms${rmssdArrow}</td>
+      <td style="font-family:monospace;color:var(--text-dim)">~${sdnnDisp} ms</td>
+      <td style="font-family:monospace;color:var(--text-dim)">~${pnn50Disp}%</td>
+      <td style="font-family:monospace;color:${recColor}">${s.recovery} / 100</td>
+      <td>${getStatusBadge(s.recovery)}</td>`;
+    tbody.appendChild(tr);
+  });
+  document.getElementById('historyLabel').textContent = `📊 Historical Sessions (Last ${sorted.length} Recorded)`;
+  document.getElementById('trendTitle').textContent = `RMSSD Trend — ${sorted.length} Session${sorted.length !== 1 ? 's' : ''}`;
+
+  // Re-draw canvases
+  drawTrend(sorted);
+  startECGAnimation(latest.hr);
+}
+
+// ─── ECG Animation ────────────────────────────────────────────────────────────
+let ecgAnimId = null;
+function startECGAnimation(hr) {
+  if (ecgAnimId) cancelAnimationFrame(ecgAnimId);
+  const canvas = document.getElementById('ecgCanvas');
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = canvas.offsetWidth * dpr;
+  canvas.height = 130 * dpr;
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+  const W = canvas.offsetWidth, H = 130;
+  const rr = 60 / hr, speed = 75;
+  let offset = 0;
+
+  function drawGrid() {
+    ctx.strokeStyle = 'rgba(0,229,255,0.05)'; ctx.lineWidth = 0.5;
+    for (let x = 0; x < W; x += 25) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
+    for (let y = 0; y < H; y += 20) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
+    ctx.strokeStyle = 'rgba(0,229,255,0.10)'; ctx.lineWidth = 1;
+    for (let x = 0; x < W; x += 125) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
+  }
+  function ecgSample(t, rr) {
+    const phase = (t % rr) / rr; let v = 0;
+    if (phase > 0.08 && phase < 0.22) { const pt = (phase-0.08)/0.14; v += 0.12*Math.sin(Math.PI*pt); }
+    if (phase > 0.27 && phase < 0.31) { const qt = (phase-0.27)/0.04; v -= 0.08*Math.sin(Math.PI*qt); }
+    if (phase > 0.30 && phase < 0.40) { const rt = (phase-0.30)/0.10; v += 1.0*Math.sin(Math.PI*rt); }
+    if (phase > 0.38 && phase < 0.46) { const st = (phase-0.38)/0.08; v -= 0.15*Math.sin(Math.PI*st); }
+    if (phase > 0.46 && phase < 0.78) { const tw = (phase-0.46)/0.32; v += 0.22*Math.sin(Math.PI*tw)*(1-0.4*tw); }
+    v += (Math.random()-0.5)*0.015; return v;
+  }
+  function draw() {
+    ctx.clearRect(0,0,W,H); drawGrid();
+    const baseline = H*0.55, amplitude = H*0.36;
+    ctx.shadowColor = 'rgba(0,229,255,0.6)'; ctx.shadowBlur = 4;
+    ctx.strokeStyle = '#00e5ff'; ctx.lineWidth = 1.5; ctx.beginPath();
+    const tStart = offset / speed;
+    for (let px = 0; px < W; px++) {
+      const t = tStart + px/speed, v = ecgSample(t, rr), y = baseline - v*amplitude;
+      if (px === 0) ctx.moveTo(px,y); else ctx.lineTo(px,y);
     }
-    ctx.stroke();ctx.shadowBlur=0;
-    offset=(offset+1.5)%(W*2);
-    requestAnimationFrame(draw);
+    ctx.stroke(); ctx.shadowBlur = 0;
+    offset = (offset + 1.5) % (W * 2);
+    ecgAnimId = requestAnimationFrame(draw);
   }
   draw();
-})();
+}
 
-(function(){
-  const canvas=document.getElementById('gaugeCanvas');
-  const ctx=canvas.getContext('2d');
-  const score=48,cx=80,cy=90,r=65;
-  ctx.clearRect(0,0,160,120);
-  ctx.beginPath();ctx.arc(cx,cy,r,Math.PI,0);
-  ctx.lineWidth=14;ctx.strokeStyle='#1e2d45';ctx.stroke();
-  const endAngle=Math.PI+(score/100)*Math.PI;
-  ctx.beginPath();ctx.arc(cx,cy,r,Math.PI,endAngle);
-  ctx.lineWidth=14;ctx.strokeStyle='#ffc107';ctx.lineCap='round';
-  ctx.shadowColor='rgba(255,193,7,0.5)';ctx.shadowBlur=8;ctx.stroke();ctx.shadowBlur=0;
-  const nx=cx+r*Math.cos(endAngle),ny=cy+r*Math.sin(endAngle);
-  ctx.beginPath();ctx.arc(nx,ny,5,0,Math.PI*2);ctx.fillStyle='#fff';ctx.fill();
-  ctx.fillStyle='#ffc107';ctx.font='bold 32px monospace';ctx.textAlign='center';
-  ctx.fillText('48',cx,cy+8);
-  ctx.fillStyle='rgba(122,139,168,0.7)';ctx.font='11px monospace';
-  ctx.fillText('/ 100',cx,cy+26);
-})();
+// ─── Gauge Canvas ─────────────────────────────────────────────────────────────
+function drawGauge(score, color) {
+  const canvas = document.getElementById('gaugeCanvas');
+  const ctx = canvas.getContext('2d');
+  const cx = 80, cy = 90, r = 65;
+  ctx.clearRect(0, 0, 160, 120);
+  ctx.beginPath(); ctx.arc(cx, cy, r, Math.PI, 0);
+  ctx.lineWidth = 14; ctx.strokeStyle = '#1e2d45'; ctx.stroke();
+  const endAngle = Math.PI + (score/100)*Math.PI;
+  ctx.beginPath(); ctx.arc(cx, cy, r, Math.PI, endAngle);
+  ctx.lineWidth = 14; ctx.strokeStyle = color; ctx.lineCap = 'round';
+  ctx.shadowColor = color + '88'; ctx.shadowBlur = 8; ctx.stroke(); ctx.shadowBlur = 0;
+  const nx = cx + r*Math.cos(endAngle), ny = cy + r*Math.sin(endAngle);
+  ctx.beginPath(); ctx.arc(nx, ny, 5, 0, Math.PI*2); ctx.fillStyle = '#fff'; ctx.fill();
+  ctx.fillStyle = color; ctx.font = 'bold 32px monospace'; ctx.textAlign = 'center';
+  ctx.fillText(score, cx, cy+8);
+  ctx.fillStyle = 'rgba(122,139,168,0.7)'; ctx.font = '11px monospace';
+  ctx.fillText('/ 100', cx, cy+26);
+}
 
-(function(){
-  const canvas=document.getElementById('trendCanvas');
-  const dpr=window.devicePixelRatio||1;
-  canvas.width=canvas.offsetWidth*dpr;canvas.height=80*dpr;
-  const ctx=canvas.getContext('2d');ctx.scale(dpr,dpr);
-  const W=canvas.offsetWidth,H=80;
-  const sessions=[{label:'Mar 21',rmssd:60.97,x:0.2},{label:'Mar 22',rmssd:31.79,x:0.8}];
-  const maxR=80,minR=0;
-  function yPos(v){return H-10-((v-minR)/(maxR-minR))*(H-20);}
-  ctx.strokeStyle='rgba(0,229,255,0.06)';ctx.lineWidth=1;
-  [0,20,40,60,80].forEach(v=>{
-    const y=yPos(v);
-    ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();
-    ctx.fillStyle='rgba(122,139,168,0.5)';ctx.font='9px monospace';ctx.fillText(v+'ms',4,y-2);
+// ─── Trend Canvas ─────────────────────────────────────────────────────────────
+function drawTrend(sortedSessions) {
+  const canvas = document.getElementById('trendCanvas');
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = canvas.offsetWidth * dpr; canvas.height = 80*dpr;
+  const ctx = canvas.getContext('2d'); ctx.scale(dpr, dpr);
+  const W = canvas.offsetWidth, H = 80;
+  const maxR = Math.max(80, ...sortedSessions.map(s=>s.rmssd)) + 10;
+  const minR = 0;
+  function yPos(v) { return H-10-((v-minR)/(maxR-minR))*(H-20); }
+
+  ctx.strokeStyle = 'rgba(0,229,255,0.06)'; ctx.lineWidth = 1;
+  [0, 20, 40, 60, 80].forEach(v => {
+    const y = yPos(v);
+    ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke();
+    ctx.fillStyle = 'rgba(122,139,168,0.5)'; ctx.font = '9px monospace'; ctx.textAlign = 'left';
+    ctx.fillText(v+'ms', 4, y-2);
   });
-  ctx.setLineDash([4,4]);ctx.strokeStyle='rgba(255,193,7,0.35)';ctx.lineWidth=1;
-  const baseY=yPos(45);ctx.beginPath();ctx.moveTo(0,baseY);ctx.lineTo(W,baseY);ctx.stroke();
+  ctx.setLineDash([4,4]); ctx.strokeStyle = 'rgba(255,193,7,0.35)'; ctx.lineWidth = 1;
+  const baseY = yPos(45); ctx.beginPath(); ctx.moveTo(0,baseY); ctx.lineTo(W,baseY); ctx.stroke();
   ctx.setLineDash([]);
-  ctx.fillStyle='rgba(255,193,7,0.5)';ctx.font='9px monospace';ctx.textAlign='right';
-  ctx.fillText('baseline ~45ms',W-4,baseY-3);
-  const pts=sessions.map(s=>({x:s.x*W,y:yPos(s.rmssd)}));
-  const grad=ctx.createLinearGradient(0,0,W,0);
-  grad.addColorStop(0,'rgba(0,230,118,0.15)');grad.addColorStop(1,'rgba(255,193,7,0.15)');
-  ctx.beginPath();ctx.moveTo(pts[0].x,H);
-  pts.forEach(p=>ctx.lineTo(p.x,p.y));
-  ctx.lineTo(pts[pts.length-1].x,H);ctx.closePath();ctx.fillStyle=grad;ctx.fill();
-  ctx.beginPath();ctx.strokeStyle='#00e5ff';ctx.lineWidth=2;
-  ctx.shadowColor='rgba(0,229,255,0.5)';ctx.shadowBlur=6;
-  pts.forEach((p,i)=>i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y));
-  ctx.stroke();ctx.shadowBlur=0;
-  sessions.forEach((s,i)=>{
-    const p=pts[i];
-    ctx.beginPath();ctx.arc(p.x,p.y,5,0,Math.PI*2);
-    ctx.fillStyle=i===sessions.length-1?'#ffc107':'#00e676';
-    ctx.shadowColor=ctx.fillStyle;ctx.shadowBlur=8;ctx.fill();ctx.shadowBlur=0;
-    ctx.fillStyle=i===sessions.length-1?'#ffc107':'#00e676';
-    ctx.font='bold 11px monospace';ctx.textAlign='center';
-    ctx.fillText(s.rmssd.toFixed(1)+'ms',p.x,p.y-10);
-    ctx.fillStyle='rgba(122,139,168,0.7)';ctx.font='10px monospace';
-    ctx.fillText(s.label,p.x,H-2);
+  ctx.fillStyle = 'rgba(255,193,7,0.5)'; ctx.font = '9px monospace'; ctx.textAlign = 'right';
+  ctx.fillText('baseline ~45ms', W-4, baseY-3);
+
+  const n = sortedSessions.length;
+  const pts = sortedSessions.map((s, i) => ({
+    x: n === 1 ? W*0.5 : W*0.1 + (i/(n-1))*W*0.8,
+    y: yPos(s.rmssd), rmssd: s.rmssd, label: fmtLabel(s.date)
+  }));
+
+  // Area fill
+  const grad = ctx.createLinearGradient(0,0,W,0);
+  grad.addColorStop(0,'rgba(0,230,118,0.15)'); grad.addColorStop(1,'rgba(255,193,7,0.15)');
+  ctx.beginPath(); ctx.moveTo(pts[0].x, H);
+  pts.forEach(p => ctx.lineTo(p.x, p.y));
+  ctx.lineTo(pts[pts.length-1].x, H); ctx.closePath(); ctx.fillStyle = grad; ctx.fill();
+
+  // Line
+  ctx.beginPath(); ctx.strokeStyle = '#00e5ff'; ctx.lineWidth = 2;
+  ctx.shadowColor = 'rgba(0,229,255,0.5)'; ctx.shadowBlur = 6;
+  pts.forEach((p,i) => i===0 ? ctx.moveTo(p.x,p.y) : ctx.lineTo(p.x,p.y));
+  ctx.stroke(); ctx.shadowBlur = 0;
+
+  // Dots and labels
+  pts.forEach((p, i) => {
+    const isLatest = i === pts.length - 1;
+    const dotColor = isLatest ? '#ffc107' : '#00e676';
+    ctx.beginPath(); ctx.arc(p.x, p.y, 5, 0, Math.PI*2);
+    ctx.fillStyle = dotColor; ctx.shadowColor = dotColor; ctx.shadowBlur = 8;
+    ctx.fill(); ctx.shadowBlur = 0;
+    ctx.fillStyle = dotColor; ctx.font = 'bold 10px monospace'; ctx.textAlign = 'center';
+    ctx.fillText(p.rmssd.toFixed(1)+'ms', p.x, p.y-10);
+    ctx.fillStyle = 'rgba(122,139,168,0.7)'; ctx.font = '9px monospace';
+    ctx.fillText(p.label, p.x, H-2);
   });
-})();
+}
+
+// ─── PDF Parsing ──────────────────────────────────────────────────────────────
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+  'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+async function parsePolarPDF(file) {
+  const arrayBuffer = await file.arrayBuffer();
+  const pdf = await pdfjsLib.getDocument({data: arrayBuffer}).promise;
+
+  let allBPMs = [], pageRMSSDs = [], sessionDate = null, sessionTime = null;
+  const totalPages = pdf.numPages;
+
+  for (let i = 1; i <= totalPages; i++) {
+    setProgress(Math.round((i / totalPages) * 70));
+    const page = await pdf.getPage(i);
+    const tc = await page.getTextContent();
+    const text = tc.items.map(it => it.str).join(' ');
+
+    if (i === 1) {
+      // Date format: dd/mm/yy, HH:MM:SS
+      const dm = text.match(/(\d{2})\/(\d{2})\/(\d{2}),\s*(\d{2}):(\d{2})/);
+      if (dm) {
+        sessionDate = `20${dm[3]}-${dm[2]}-${dm[1]}`;
+        sessionTime = `${dm[4]}:${dm[5]}`;
+      }
+    }
+    // BPM values
+    const bpmMatches = [...text.matchAll(/BPM:\s*(\d+)/g)];
+    bpmMatches.forEach(m => allBPMs.push(parseInt(m[1])));
+    // Per-page RMSSD
+    const rm = text.match(/RMSSD\):\s*([\d.]+)\s*ms/);
+    if (rm) pageRMSSDs.push(parseFloat(rm[1]));
+  }
+
+  if (pageRMSSDs.length === 0) throw new Error('Could not find RMSSD values — is this a Polar H10 ECG report?');
+  if (!sessionDate) throw new Error('Could not read session date from PDF.');
+
+  const hr = Math.round(allBPMs.reduce((a,b)=>a+b,0) / allBPMs.length);
+  const rmssd = Math.round((pageRMSSDs.reduce((a,b)=>a+b,0) / pageRMSSDs.length) * 10) / 10;
+  const minHR = Math.min(...allBPMs);
+  const maxHR = Math.max(...allBPMs);
+  const sdnn = calcSDNN(rmssd);
+  const pnn50 = calcPNN50(rmssd);
+
+  // Sort existing sessions to find previous
+  const sorted = [...sessions].sort((a,b) => (a.date+a.time).localeCompare(b.date+b.time));
+  const prevSession = sorted.length > 0 ? sorted[sorted.length-1] : null;
+  const recovery = calcRecovery(rmssd, hr, prevSession ? prevSession.rmssd : null);
+
+  setProgress(90);
+  return { id: 'u_' + Date.now(), date: sessionDate, time: sessionTime, hr, rmssd, sdnn, pnn50, recovery, minHR, maxHR };
+}
+
+// ─── Upload UI ────────────────────────────────────────────────────────────────
+function openModal() { document.getElementById('modalOverlay').classList.add('active'); resetStatus(); }
+function closeModal() { document.getElementById('modalOverlay').classList.remove('active'); resetStatus(); }
+function handleOverlayClick(e) { if (e.target === document.getElementById('modalOverlay')) closeModal(); }
+
+function handleDragOver(e) { e.preventDefault(); document.getElementById('dropZone').classList.add('drag-over'); }
+function handleDragLeave() { document.getElementById('dropZone').classList.remove('drag-over'); }
+function handleDrop(e) {
+  e.preventDefault();
+  document.getElementById('dropZone').classList.remove('drag-over');
+  const file = e.dataTransfer.files[0];
+  if (file && file.type === 'application/pdf') processFile(file);
+  else showStatus('error', 'Please drop a PDF file.');
+}
+function handleFileSelect(e) { const f = e.target.files[0]; if (f) processFile(f); }
+
+function setProgress(pct) {
+  document.getElementById('progressFill').style.width = pct + '%';
+}
+function resetStatus() {
+  const s = document.getElementById('parseStatus');
+  s.className = 'parse-status'; s.style.display = 'none';
+  document.getElementById('progressFill').style.width = '0%';
+  document.getElementById('pdfFileInput').value = '';
+}
+function showStatus(type, text) {
+  const s = document.getElementById('parseStatus');
+  s.className = 'parse-status ' + type;
+  s.style.display = 'block';
+  document.getElementById('parseStatusText').textContent = text;
+}
+
+async function processFile(file) {
+  showStatus('loading', '⏳ Parsing PDF — reading ECG data...');
+  setProgress(10);
+  try {
+    const session = await parsePolarPDF(file);
+    // Check duplicate
+    const dup = sessions.find(s => s.date === session.date && s.time === session.time);
+    if (dup) { showStatus('error', '⚠ This session already exists in your dashboard.'); return; }
+    sessions.push(session);
+    saveSessions();
+    setProgress(100);
+    showStatus('success', `✓ Session added! ${fmtLabel(session.date)} · HR ${session.hr} bpm · RMSSD ${session.rmssd} ms · Recovery ${session.recovery}/100`);
+    setTimeout(() => { closeModal(); renderDashboard(); }, 1800);
+  } catch(err) {
+    showStatus('error', '✗ ' + (err.message || 'Failed to parse PDF. Make sure it is a Polar H10 ECG report.'));
+    setProgress(0);
+  }
+}
+
+// ─── Init ─────────────────────────────────────────────────────────────────────
+renderDashboard();
+window.addEventListener('resize', () => {
+  const sorted = [...sessions].sort((a,b) => (a.date+a.time).localeCompare(b.date+b.time));
+  if (sorted.length) {
+    startECGAnimation(sorted[sorted.length-1].hr);
+    drawTrend(sorted);
+    drawGauge(sorted[sorted.length-1].recovery, getGaugeColor(sorted[sorted.length-1].recovery));
+  }
+});
 </script>
 </body>
 </html>
